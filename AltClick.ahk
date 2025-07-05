@@ -12,7 +12,6 @@ global g_ToolTipGUI := false
 
 ; =================================================================================
 ; Core Logic: LAlt acts as LButton unless a key combo is triggered
-; THIS SECTION HAS BEEN REWRITTEN TO BE CORRECT.
 ; =================================================================================
 
 #HotIf g_IsActive
@@ -68,7 +67,7 @@ LAlt Up::
 #HotIf ; End g_IsActive context
 
 ; =================================================================================
-; Alt+Key Combo Handling (This section was correct and is unchanged)
+; Alt+Key Combo Handling
 ; =================================================================================
 
 #HotIf GetKeyState("LAlt", "P") && g_IsActive
@@ -170,7 +169,7 @@ HandleAltCombo(key)
 #HotIf ; End context-sensitive hotkeys
 
 ; =================================================================================
-; Script Toggle and UI (Unchanged)
+; Script Toggle and UI
 ; =================================================================================
 
 *CapsLock::ToggleActiveState()
