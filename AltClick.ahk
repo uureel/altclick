@@ -12,28 +12,63 @@ global g_ToolTipGUI := false
 
 ; =================================================================================
 ; Core Logic: LAlt acts as LButton unless a key combo is triggered
+; THIS SECTION HAS BEEN REWRITTEN TO BE CORRECT.
 ; =================================================================================
 
 #HotIf g_IsActive
 
-*LAlt::
+; --- Case 1: Plain LAlt -> LButton ---
+LAlt::
 {
     g_AltComboFired := false
     Send "{LButton Down}"
 }
-
-*LAlt Up::
+LAlt Up::
 {
     if (!g_AltComboFired)
         Send "{LButton Up}"
 }
 
+; --- Case 2: Ctrl + LAlt -> Ctrl + LButton ---
+^LAlt::
+{
+    g_AltComboFired := false
+    Send "{Ctrl Down}{LButton Down}"
+}
+^LAlt Up::
+{
+    if (!g_AltComboFired)
+        Send "{LButton Up}{Ctrl Up}"
+}
+
+; --- Case 3: Shift + LAlt -> Shift + LButton ---
++LAlt::
+{
+    g_AltComboFired := false
+    Send "{Shift Down}{LButton Down}"
+}
++LAlt Up::
+{
+    if (!g_AltComboFired)
+        Send "{LButton Up}{Shift Up}"
+}
+
+; --- Case 4: Ctrl + Shift + LAlt -> Ctrl + Shift + LButton ---
+^+LAlt::
+{
+    g_AltComboFired := false
+    Send "{Ctrl Down}{Shift Down}{LButton Down}"
+}
+^+LAlt Up::
+{
+    if (!g_AltComboFired)
+        Send "{LButton Up}{Shift Up}{Ctrl Up}"
+}
+
 #HotIf ; End g_IsActive context
 
 ; =================================================================================
-; Alt+Key Combo Handling
-; This entire section is ONLY active when LAlt is physically held AND g_IsActive is true.
-; This is the correct way to control context.
+; Alt+Key Combo Handling (This section was correct and is unchanged)
 ; =================================================================================
 
 #HotIf GetKeyState("LAlt", "P") && g_IsActive
@@ -62,9 +97,7 @@ HandleAltCombo(key)
         Send "{Shift Down}"
 }
 
-; --- Explicit Hotkey Definitions ---
-; This is verbose, but it is the ONLY way to ensure hotkeys respect #HotIf.
-; The "*" prefix allows firing with modifiers. The "~" prefix is REMOVED to prevent double-sends.
+; --- Explicit Hotkey Definitions (Unchanged) ---
 *a::HandleAltCombo("a")
 *b::HandleAltCombo("b")
 *c::HandleAltCombo("c")
@@ -103,16 +136,16 @@ HandleAltCombo(key)
 *0::HandleAltCombo("0")
 *`::HandleAltCombo("``")
 *-::HandleAltCombo("-")
-*SC00C::HandleAltCombo("-") ; NumpadSub also uses "-"
-*SC00D::HandleAltCombo("=") ; =
-*SC01A::HandleAltCombo("[") ; [
-*SC01B::HandleAltCombo("]") ; ]
-*SC02B::HandleAltCombo("\") ; \
-*SC027::HandleAltCombo(";") ; ;
-*SC028::HandleAltCombo("'") ; '
-*SC033::HandleAltCombo(",") ; ,
-*SC034::HandleAltCombo(".") ; .
-*SC035::HandleAltCombo("/") ; /
+*SC00C::HandleAltCombo("-")
+*SC00D::HandleAltCombo("=")
+*SC01A::HandleAltCombo("[")
+*SC01B::HandleAltCombo("]")
+*SC02B::HandleAltCombo("\")
+*SC027::HandleAltCombo(";")
+*SC028::HandleAltCombo("'")
+*SC033::HandleAltCombo(",")
+*SC034::HandleAltCombo(".")
+*SC035::HandleAltCombo("/")
 *Space::HandleAltCombo("Space")
 *Tab::HandleAltCombo("Tab")
 *Enter::HandleAltCombo("Enter")
@@ -137,7 +170,7 @@ HandleAltCombo(key)
 #HotIf ; End context-sensitive hotkeys
 
 ; =================================================================================
-; Script Toggle and UI (This is always active)
+; Script Toggle and UI (Unchanged)
 ; =================================================================================
 
 *CapsLock::ToggleActiveState()
