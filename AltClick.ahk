@@ -74,29 +74,28 @@ LAlt Up::
 
 HandleAltCombo(key)
 {
-    Send "{LButton Up}"
     g_AltComboFired := true
 
-    local isCtrlHeld := GetKeyState("Control", "P")
-    local isShiftHeld := GetKeyState("Shift", "P")
+    ; Step 1: Release the mouse button without altering modifier key states.
+    Send "{Blind}{LButton Up}"
 
-    local finalSend := ""
-    if (isCtrlHeld)
+    ; Step 2: Build the full, correct key combo string to send.
+    ; This ensures that even with other modifiers held (Ctrl/Shift), the correct
+    ; Alt+Key combo is sent.
+    local finalSend := "{Blind}"
+    if GetKeyState("Control", "P")
         finalSend .= "^"
-    if (isShiftHeld)
+    if GetKeyState("Shift", "P")
         finalSend .= "+"
-    finalSend .= "!"
-    finalSend .= "{" key "}"
-
+    
+    finalSend .= "!" ; Explicitly add the Alt modifier.
+    finalSend .= key  ; Add the key itself.
+    
+    ; Step 3: Send the final command.
     Send finalSend
-
-    if (isCtrlHeld)
-        Send "{Control Down}"
-    if (isShiftHeld)
-        Send "{Shift Down}"
 }
 
-; --- Explicit Hotkey Definitions (Unchanged) ---
+; --- Hotkey Definitions ---
 *a::HandleAltCombo("a")
 *b::HandleAltCombo("b")
 *c::HandleAltCombo("c")
@@ -113,7 +112,7 @@ HandleAltCombo(key)
 *n::HandleAltCombo("n")
 *o::HandleAltCombo("o")
 *p::HandleAltCombo("p")
-*q::HandlealtCombo("q")
+*q::HandleAltCombo("q")
 *r::HandleAltCombo("r")
 *s::HandleAltCombo("s")
 *t::HandleAltCombo("t")
@@ -135,36 +134,37 @@ HandleAltCombo(key)
 *0::HandleAltCombo("0")
 *`::HandleAltCombo("``")
 *-::HandleAltCombo("-")
-*SC00C::HandleAltCombo("-")
-*SC00D::HandleAltCombo("=")
-*SC01A::HandleAltCombo("[")
-*SC01B::HandleAltCombo("]")
-*SC02B::HandleAltCombo("\")
-*SC027::HandleAltCombo(";")
-*SC028::HandleAltCombo("'")
-*SC033::HandleAltCombo(",")
-*SC034::HandleAltCombo(".")
-*SC035::HandleAltCombo("/")
-*Space::HandleAltCombo("Space")
-*Tab::HandleAltCombo("Tab")
-*Enter::HandleAltCombo("Enter")
-*Esc::HandleAltCombo("Esc")
-*Up::HandleAltCombo("Up")
-*Down::HandleAltCombo("Down")
-*Left::HandleAltCombo("Left")
-*Right::HandleAltCombo("Right")
-*F1::HandleAltCombo("F1")
-*F2::HandleAltCombo("F2")
-*F3::HandleAltCombo("F3")
-*F4::HandleAltCombo("F4")
-*F5::HandleAltCombo("F5")
-*F6::HandleAltCombo("F6")
-*F7::HandleAltCombo("F7")
-*F8::HandleAltCombo("F8")
-*F9::HandleAltCombo("F9")
-*F10::HandleAltCombo("F10")
-*F11::HandleAltCombo("F11")
-*F12::HandleAltCombo("F12")
+*=::HandleAltCombo("=")
+*[::HandleAltCombo("[")
+*]::HandleAltCombo("]")
+*\::HandleAltCombo("\")
+*;::HandleAltCombo(";")
+*'::HandleAltCombo("'")
+*,::HandleAltCombo(",")
+*.::HandleAltCombo(".")
+*/::HandleAltCombo("/")
+*Backspace::HandleAltCombo("{Backspace}")
+*SC00C::HandleAltCombo("{NumpadSub}")
+*Space::HandleAltCombo("{Space}")
+*Tab::HandleAltCombo("{Tab}")
+*Enter::HandleAltCombo("{Enter}")
+*Esc::HandleAltCombo("{Esc}")
+*Up::HandleAltCombo("{Up}")
+*Down::HandleAltCombo("{Down}")
+*Left::HandleAltCombo("{Left}")
+*Right::HandleAltCombo("{Right}")
+*F1::HandleAltCombo("{F1}")
+*F2::HandleAltCombo("{F2}")
+*F3::HandleAltCombo("{F3}")
+*F4::HandleAltCombo("{F4}")
+*F5::HandleAltCombo("{F5}")
+*F6::HandleAltCombo("{F6}")
+*F7::HandleAltCombo("{F7}")
+*F8::HandleAltCombo("{F8}")
+*F9::HandleAltCombo("{F9}")
+*F10::HandleAltCombo("{F10}")
+*F11::HandleAltCombo("{F11}")
+*F12::HandleAltCombo("{F12}")
 
 #HotIf ; End context-sensitive hotkeys
 
