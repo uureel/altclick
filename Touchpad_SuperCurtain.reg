@@ -1,0 +1,19 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\PrecisionTouchPad]
+"SuperCurtainLeft"=dword:000008ae
+"SuperCurtainRight"=dword:000008ae
+"SuperCurtainTop"=dword:00000457
+"SuperCurtainBottom"=dword:00000457
+"SpaceBarOffset"=dword:00000457
+"HorizontalOffset"=dword:00000000
+"HorizontalOffsetIsNeg"=dword:00000000
+"AAPNonCurtainTop"=dword:00001500
+"AAPNonCurtainBaseWidth"=dword:00007000
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\PrecisionTouchPad\IgnoredExternalMice]
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\PrecisionTouchPad\LegacyControlled]
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\PrecisionTouchPad\LegacyDevices]
+
